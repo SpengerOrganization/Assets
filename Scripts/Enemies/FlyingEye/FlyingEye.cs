@@ -19,10 +19,11 @@ public class FlyingEye : MonoBehaviour
     private Animator animator;
     private Rigidbody2D rb;
     public Transform AttackPoint;
-    public LayerMask EnemyLayers;
+    public LayerMask PlayerLayer;
 
     // Player
     private GameObject player;
+    private PlayerStats PlayerStats;
 
     // Other
     private float NextAttack;
@@ -34,7 +35,8 @@ public class FlyingEye : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.Find("Player");
-        NextAttack = Time.time + AttackSpeed;
+        PlayerStats = player.GetComponent<PlayerStats>();
+        NextAttack = Time.time;
         LastXPosition = transform.position.x;
     }
 
@@ -99,7 +101,16 @@ public class FlyingEye : MonoBehaviour
                 // attack done
 
                 // make damage
-                Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(AttackPoint.position, AttackRange, EnemyLayers);
+                Collider2D[] hit = Physics2D.OverlapCircleAll(AttackPoint.position, AttackRange, PlayerLayer);
+
+                foreach(Collider2D c in hit)
+                {
+                    if (c.name.Equals("Player"))
+                    {
+                        // make damage to player
+                        PlayerStats.GetDamage(Damage);
+                    }
+                }
 
                 // continue flying
                 animator.Play("Flying");
@@ -110,5 +121,15 @@ public class FlyingEye : MonoBehaviour
     private bool AnimatorIsPlaying()
     {
         return animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1;
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        if (AttackPoint == null)
+        {
+            return;
+        }
+
+        Gizmos.DrawWireSphere(AttackPoint.position, AttackRange);
     }
 }
