@@ -5,15 +5,21 @@ using UnityEngine;
 public class FlyingEye : MonoBehaviour
 {
     // Attributes
-    public float Speed = 3;
+    public float MovingSpeed = 3;
+    public float Health = 10;
+    public float Damage = 1;
+
     public float RealisationDistance = 20;
     public float AttackingDistance = 1;
     public float AttackingDistanceRange = 1;
     public float AttackSpeed = 1.5f;
+    public float AttackRange = 0.5f;
 
     // Components
     private Animator animator;
     private Rigidbody2D rb;
+    public Transform AttackPoint;
+    public LayerMask EnemyLayers;
 
     // Player
     private GameObject player;
@@ -71,7 +77,7 @@ public class FlyingEye : MonoBehaviour
 
         LastXPosition = transform.position.x;
 
-        rb.MovePosition(Vector2.MoveTowards(transform.position, player.transform.position, Speed * Time.fixedDeltaTime));
+        rb.MovePosition(Vector2.MoveTowards(transform.position, player.transform.position, MovingSpeed * Time.fixedDeltaTime));
 
         if (!AnimatorIsPlaying())
         {
@@ -90,6 +96,12 @@ public class FlyingEye : MonoBehaviour
         {
             if (!AnimatorIsPlaying())
             {
+                // attack done
+
+                // make damage
+                Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(AttackPoint.position, AttackRange, EnemyLayers);
+
+                // continue flying
                 animator.Play("Flying");
             }
         }
