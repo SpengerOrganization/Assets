@@ -429,7 +429,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0760461, y: 0, z: -10}
+  m_LocalPosition: {x: -6.4200006, y: 1.9, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -483,7 +483,9 @@ GameObject:
   - component: {fileID: 526140573}
   - component: {fileID: 526140577}
   - component: {fileID: 526140576}
-  m_Layer: 6
+  - component: {fileID: 526140578}
+  - component: {fileID: 526140579}
+  m_Layer: 7
   m_Name: Fyling Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -618,11 +620,40 @@ MonoBehaviour:
   AttackingDistance: 0.5
   AttackingDistanceRange: 0.5
   AttackSpeed: 1.5
-  AttackRange: 0.5
+  AttackRange: 0.6
   AttackPoint: {fileID: 1902249247}
   PlayerLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 64
+--- !u!58 &526140578
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526140572}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.00000011920929}
+  serializedVersion: 2
+  m_Radius: 0.4304281
+--- !u!114 &526140579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526140572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a1186e1cea87574791267f5b9d0ee32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TimeExisting: 10
 --- !u!1 &1305355904
 GameObject:
   m_ObjectHideFlags: 0
@@ -3600,7 +3631,7 @@ GameObject:
   - component: {fileID: 1581491918}
   - component: {fileID: 1581491920}
   - component: {fileID: 1581491921}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3687,10 +3718,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1581491914}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.076045625, y: 0, z: 0}
+  m_LocalPosition: {x: -6.42, y: 1.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1906123119}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3727,6 +3759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b42a378d58c3b4469f70f0ece06806d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AttackPoint: {fileID: 1906123119}
   Speed: 3.5
 --- !u!61 &1581491920
 BoxCollider2D:
@@ -3766,8 +3799,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1983f95d5062c7645b6826a81d0cc752, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 0
+  Damage: 3
   Health: 3
+  AttackPoint: {fileID: 1906123119}
+  AttackRange: 0.6
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &1793339983
 GameObject:
   m_ObjectHideFlags: 0
@@ -3831,7 +3869,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1793339983}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0760461, y: 0, z: -10}
+  m_LocalPosition: {x: -6.4200006, y: 1.9, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3868,5 +3906,36 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 526140575}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1906123118
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1906123119}
+  m_Layer: 6
+  m_Name: AttackPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1906123119
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1906123118}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.7, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1581491917}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

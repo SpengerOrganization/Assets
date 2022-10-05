@@ -41,6 +41,15 @@ public class FlyingEye : MonoBehaviour
     }
 
 
+    void Update(){
+        if(IsDead()){
+            animator.Play("Death");
+            Destroy(GetComponent<Collider2D>());
+            Destroy(this);
+            BroadcastMessage("StartTimer");
+        }
+    }
+
     void FixedUpdate()
     {
         float DistanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
@@ -58,6 +67,13 @@ public class FlyingEye : MonoBehaviour
         }
     }
 
+    private bool IsDead(){
+        return Health<=0;
+    }
+
+    public void ApplyDamage(float Damage){
+        Health-=Damage;
+    }
 
     private void MoveTowardsPlayer()
     {
@@ -96,7 +112,7 @@ public class FlyingEye : MonoBehaviour
         }
         else
         {
-            if (!AnimatorIsPlaying())
+            if (!AnimatorIsPlaying() && CurrentAnimationName().Equals("Attacking"))
             {
                 // attack done
 
@@ -116,6 +132,10 @@ public class FlyingEye : MonoBehaviour
                 animator.Play("Flying");
             }
         }
+    }
+
+    private string CurrentAnimationName(){
+        return animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
     }
 
     private bool AnimatorIsPlaying()
