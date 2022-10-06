@@ -72,6 +72,7 @@ public class FlyingEye : MonoBehaviour
     }
 
     public void ApplyDamage(float Damage){
+        animator.Play("Take Hit");
         Health-=Damage;
     }
 
