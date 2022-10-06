@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: Tree1
+  m_Name: StoneBarrier
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: 1ebf1bde4719f7e43b05ecc44b7a3017, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 338b76fb52491a34ebe53374259c3693, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
