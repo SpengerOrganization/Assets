@@ -12,9 +12,11 @@ public class PlayerStats : MonoBehaviour
     public float AttackRange;
     public LayerMask enemyLayer;
 
+    private Renderer SpriteRenderer;
+
     void Start()
     {
-        
+        SpriteRenderer = GetComponent<Renderer>();
     }
 
     void Update()
@@ -36,7 +38,9 @@ public class PlayerStats : MonoBehaviour
 
     public void GetDamage(float Damage)
     {
+        SpriteRenderer.material.color = Color.red;
         Health -= Damage;
+        StartCoroutine(GetDamageTimer());
     }
 
     private void DealDamage(Collider2D HitEnemyCol, float Damage){
@@ -64,5 +68,10 @@ public class PlayerStats : MonoBehaviour
         }
 
         Gizmos.DrawWireSphere(AttackPoint.position, AttackRange);
+    }
+
+    IEnumerator GetDamageTimer(){
+        yield return new WaitForSeconds(0.3f);
+        SpriteRenderer.material.color = Color.white;
     }
 }
