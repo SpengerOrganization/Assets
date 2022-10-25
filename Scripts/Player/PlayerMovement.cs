@@ -17,6 +17,8 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
     private Rigidbody2D rb;
     public Transform AttackPoint;
+    public Transform AttackAnim;
+    private SpriteRenderer AttackAnimRenderer;
 
     // Player Attributes
     public float Speed = 3.5f;
@@ -26,6 +28,8 @@ public class PlayerMovement : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        AttackAnimRenderer = AttackAnim.GetComponent<SpriteRenderer>();
+        AttackAnimRenderer.color = new Color(1f,1f,1f,0f);
     }
 
 
@@ -86,13 +90,19 @@ public class PlayerMovement : MonoBehaviour
             case UP:
                 AttackPoint.position = transform.position + new Vector3(0, 0, 0);
                 AttackPoint.position = transform.position + new Vector3(0, 0.7f, 0);
+                AttackAnim.localEulerAngles = new Vector3(0,0,90);
+                AttackAnimRenderer.sortingOrder = 6;
             break;
             case DOWN:
                 AttackPoint.position = transform.position + new Vector3(0, 0, 0);
                 AttackPoint.position = transform.position + new Vector3(0, -0.7f, 0);
+                AttackAnim.localEulerAngles = new Vector3(0,0,-90);
+                AttackAnimRenderer.sortingOrder = 20;
             break;
             case SIDE:
                 AttackPoint.position = transform.position + new Vector3(0, 0, 0);
+                AttackAnim.localEulerAngles = new Vector3(0,0,0);
+                AttackAnimRenderer.sortingOrder = 20;
                 if(transform.rotation.y == -1){
                     AttackPoint.position = transform.position + new Vector3(-0.7f, 0, 0);
                 }else{
@@ -100,6 +110,7 @@ public class PlayerMovement : MonoBehaviour
                 }
             break;
         }
+        AttackAnim.position = AttackPoint.position;
     }
 
 }

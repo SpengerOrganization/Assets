@@ -9,6 +9,8 @@ public class PlayerStats : MonoBehaviour
     public float Health;
 
     public Transform AttackPoint;
+    public Transform AttackAnim;
+    public SpriteRenderer AttackAnimRenderer;
     public float AttackRange;
     public LayerMask enemyLayer;
 
@@ -17,6 +19,7 @@ public class PlayerStats : MonoBehaviour
     void Start()
     {
         SpriteRenderer = GetComponent<Renderer>();
+        AttackAnimRenderer = AttackAnim.GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -29,6 +32,8 @@ public class PlayerStats : MonoBehaviour
     }
 
     private void Attack(){
+        AttackAnimRenderer.color = Color.white;
+        StartCoroutine(GetAttackTimer());
         Collider2D[] hit = Physics2D.OverlapCircleAll(AttackPoint.position, AttackRange, enemyLayer);
         foreach(Collider2D c in hit)
         {
@@ -73,5 +78,10 @@ public class PlayerStats : MonoBehaviour
     IEnumerator GetDamageTimer(){
         yield return new WaitForSeconds(0.3f);
         SpriteRenderer.material.color = Color.white;
+    }
+
+    IEnumerator GetAttackTimer(){
+        yield return new WaitForSeconds(0.1f);
+        AttackAnimRenderer.color = new Color(1f,1f,1f,0f);
     }
 }
