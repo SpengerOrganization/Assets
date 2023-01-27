@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -59,9 +60,7 @@ public class PlayerStats : MonoBehaviour
         {
             Time.timeScale = 0;
 
-            // some death animation 
-
-            // Death gui
+            SceneManager.LoadScene("DeathScene");
         }
     }
 
