@@ -1,54 +1,57 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using UnityEngine;
 
-public class PlayerViewRenderer : MonoBehaviour
+public class PlayerViewRenderer : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     
-    //When the mouse hovers over the GameObject, it turns to this color (red)
-    Color m_MouseOverColor = Color.red;
+    string IsOverColorHex = "#292929";
+    string IsExitColorHex = "#141414";
 
-    //This stores the GameObject’s original color
-    Color m_OriginalColor;
+    float opacity = 0.6f;
 
-    //Get the GameObject’s mesh renderer to access the GameObject’s material and color
-    MeshRenderer m_Renderer;
-
-    public bool IsHovering;
+    private Image image;
 
     void Start()
     {
-        IsHovering = false;
+        image = GetComponent<Image>();
 
-        //Fetch the mesh renderer component from the GameObject
-        m_Renderer = GetComponent<MeshRenderer>();
-        //Fetch the original color of the GameObject
-        m_OriginalColor = m_Renderer.material.color;
-    }
+        image.color = GetColor(IsExitColorHex, opacity);
 
-    // mouse over event
-    void OnMouseOver()
-    {
-        IsHovering = true;
-
-        // Change the color of the GameObject to red when the mouse is over GameObject
-        m_Renderer.material.color = m_MouseOverColor;
-    }
-
-    // mouse exit event
-    void OnMouseExit()
-    {
-        IsHovering = false;
-
-        // Reset the color of the GameObject back to normal
-        m_Renderer.material.color = m_OriginalColor;
-    }
-
-    void FixedUpdate(){
-        if(IsHovering){
-
-        }else{
-
+        if (image.GetComponent<EventTrigger>() == null)
+        {
+            image.gameObject.AddComponent<EventTrigger>();
         }
+
+        EventTrigger trigger = image.GetComponent<EventTrigger>();
+
+        EventTrigger.Entry entryEnter = new EventTrigger.Entry();
+        entryEnter.eventID = EventTriggerType.PointerEnter;
+        entryEnter.callback.AddListener((data) => { OnPointerEnter((PointerEventData)data); });
+        trigger.triggers.Add(entryEnter);
+
+        EventTrigger.Entry entryExit = new EventTrigger.Entry();
+        entryExit.eventID = EventTriggerType.PointerExit;
+        entryExit.callback.AddListener((data) => { OnPointerExit((PointerEventData)data); });
+        trigger.triggers.Add(entryExit);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        image.color = GetColor(IsOverColorHex, opacity);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        image.color = GetColor(IsExitColorHex, opacity);
+    }
+
+    private Color GetColor(string hex, float opacity){
+        Color color = default!;
+        ColorUtility.TryParseHtmlString(IsOverColorHex, out color);
+        color.a = opacity;
+        return color;
     }
 }
