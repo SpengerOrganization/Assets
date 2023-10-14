@@ -7,6 +7,7 @@ public class InventoryUI : MonoBehaviour
     public GameObject Inventory;
     private bool open;
 
+
     void Start()
     {
         open = false;
