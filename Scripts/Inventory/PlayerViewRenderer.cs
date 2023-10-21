@@ -7,15 +7,18 @@ using UnityEngine;
 public class PlayerViewRenderer : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     
-    string IsOverColorHex = "#292929";
-    string IsExitColorHex = "#141414";
+    private string IsOverColorHex;
+    private string IsExitColorHex;
 
-    float opacity = 0.6f;
+    private float opacity = 0.6f;
 
     private Image image;
 
     void Start()
     {
+        IsOverColorHex = "#292929";
+        IsExitColorHex = "#141414";
+        
         image = GetComponent<Image>();
 
         image.color = GetColor(IsExitColorHex, opacity);

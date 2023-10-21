@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class InventoryUI : MonoBehaviour
@@ -41,8 +42,18 @@ public class InventoryUI : MonoBehaviour
     }
 
     public void AddItem(Item item){
-        // TODO: has to be instantiated with the correct sprite and a defined factor
+        // has to be instantiated with the correct sprite and a defined factor
         GameObject slot = Instantiate(InventorySlotPrefab, ItemsParent);
+        if(slot == null) Debug.LogError("slot is not set");
+        SlotItemIdentifier id = slot.GetComponent<SlotItemIdentifier>();
+        if(id == null) Debug.LogError("id is not set");
+        id.SetItem(item);
+        GameObject iconObject = slot.transform.Find("ItemButton/ItemIcon").gameObject;
+
+        Image iconImage = iconObject.GetComponent<Image>();
+        iconImage.enabled = true;
+        iconImage.sprite = item.itemIcon;
+
         InventoryItems.Add(item);
     }
 }

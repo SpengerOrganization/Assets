@@ -7,9 +7,12 @@ public class ItemPickup : MonoBehaviour
 
     public Sprite icon;
     private Item item;
+    private SpriteRenderer spriteRenderer;
 
     void Start()
     { 
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = icon;
         // somehow generate the item for the specific gameobject-item ... random?
         item = new Sword(1, "Olaf", icon, 2, 5);
     }
