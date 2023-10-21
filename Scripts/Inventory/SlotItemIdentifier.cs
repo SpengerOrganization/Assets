@@ -9,14 +9,27 @@ public class SlotItemIdentifier : MonoBehaviour, IPointerEnterHandler, IPointerE
     
     public Item item;
     private bool onSlot;
+    private Image iconImage;
+    private GameObject ItemIconObject;
+    private bool curPicked;
+    private Sprite icon;
+
+    private GameObject canvas;
+
+    private Transform mouseFollowTransform;
 
     public void SetItem(Item item){
         this.item = item;
     }
 
     void Start()
-    { 
-        Image iconImage = transform.Find("ItemButton/ItemIcon").gameObject.GetComponent<Image>();
+    {
+        ItemIconObject = transform.Find("ItemButton/ItemIcon").gameObject;
+        iconImage = ItemIconObject.GetComponent<Image>();
+
+        icon = iconImage.sprite;
+        mouseFollowTransform = null;
+        canvas = GameObject.Find("Canvas");
 
         if (iconImage.GetComponent<EventTrigger>() == null)
         {
@@ -36,13 +49,41 @@ public class SlotItemIdentifier : MonoBehaviour, IPointerEnterHandler, IPointerE
         trigger.triggers.Add(entryExit);
 
         onSlot = false;
+        curPicked = false;
     }
 
     void Update()
-    { 
-        if(onSlot && Input.GetButtonUp("Fire1")){
-            // remove sprite from slot, make it follow the mouse until clicked again
-            Debug.Log("Clicked on "+item.itemName);
+    {
+        
+        if (onSlot && Input.GetButtonUp("Fire1"))
+        {
+            iconImage.sprite = null;
+            iconImage.enabled = false;
+
+            // make sprite follow mouse
+
+            mouseFollowTransform = GenerateSpriteAtMouse(icon);
+
+            // Aktualisiere die Position des Sprites auf die Position des Mauszeigers
+            mouseFollowTransform.position = GetMousePosition();
+
+            curPicked = true;
+        }
+        else if (Input.GetButtonUp("Fire1") && mouseFollowTransform != null)
+        {
+            // TODO: check if over Player view slot
+
+            iconImage.enabled = true;
+            iconImage.sprite = icon;
+
+            Destroy(mouseFollowTransform.gameObject);
+
+            curPicked = false;
+        }
+
+        if (curPicked)
+        {
+            mouseFollowTransform.position = GetMousePosition();
         }
     }
 
@@ -54,5 +95,45 @@ public class SlotItemIdentifier : MonoBehaviour, IPointerEnterHandler, IPointerE
     public void OnPointerExit(PointerEventData eventData)
     {
         onSlot = false;
+    }
+
+    private Transform GenerateSpriteAtMouse(Sprite sprite)
+    {
+        // Erstelle ein neues GameObject und setze den SpriteRenderer
+        GameObject newObject = new GameObject("ÍtemMouseFollow");
+        SpriteRenderer spriteRenderer = newObject.AddComponent<SpriteRenderer>();
+        spriteRenderer.sprite = sprite;
+
+        // Hol die aktuelle Position des Mauszeigers in Weltkoordinaten
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = 0;
+
+        // Setze die Position des neuen GameObjects auf die Position des Mauszeigers
+        newObject.transform.position = mousePosition;
+
+        spriteRenderer.transform.localScale = new Vector3(2f, 2f, 1f);
+
+        // TODO: Versuch, Item über Canvas anzuzeigen
+        newObject.transform.SetParent(canvas.transform, true);
+
+        // Gib das Transform-Objekt des neu erstellten GameObjects zurück
+        return newObject.transform;
+    }
+
+    private Vector3 GetMousePosition()
+    {
+        // Hol die aktuelle Position des Mauszeigers in Bildschirmkoordinaten
+        Vector3 mousePosition = Input.mousePosition;
+
+        // Setze die Z-Komponente auf die Entfernung der Kamera zur Szene
+        mousePosition.z = Camera.main.nearClipPlane;
+
+        // Wandele die Bildschirmkoordinaten in Weltkoordinaten um
+        Vector3 worldMousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+
+        // Setze die Z-Komponente auf 0, um sicherzustellen, dass das Sprite auf der Ebene liegt
+        worldMousePosition.z = 0;
+
+        return worldMousePosition;
     }
 }
