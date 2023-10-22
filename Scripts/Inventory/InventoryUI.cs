@@ -10,13 +10,13 @@ public class InventoryUI : MonoBehaviour
     private Transform Inventory;
     private bool open;
 
-    private List<Item> InventoryItems;
+    private List<GameObject> InventoryItems;
 
 
     void Start()
     {
         open = false;
-        InventoryItems = new List<Item>();
+        InventoryItems = new List<GameObject>();
         Inventory = transform.Find("Inventory");
         ItemsParent = Inventory.Find("ItemGrid/ItemsParent");
 
@@ -32,6 +32,22 @@ public class InventoryUI : MonoBehaviour
     {
         if(Input.GetKeyDown("r")){
             if(open){
+                // check if mouse follow object exists and delete it
+                GameObject itemFollow = GameObject.Find("ItemMouseFollow");
+                if(itemFollow != null){
+                    Destroy(itemFollow);
+                } 
+
+                // reset all slots
+                foreach (GameObject slot in InventoryItems){
+                    SlotHandler id = slot.GetComponent<SlotHandler>();
+                    GameObject iconObject = slot.transform.Find("ItemButton/ItemIcon").gameObject;
+                    Image iconImage = iconObject.GetComponent<Image>();
+                    iconImage.enabled = true;
+                    iconImage.sprite = id.item.itemIcon;
+                    id.curPicked = false;
+                }
+
                 Inventory.gameObject.SetActive(false);
                 open = false;
             }else{
@@ -45,15 +61,15 @@ public class InventoryUI : MonoBehaviour
         // has to be instantiated with the correct sprite and a defined factor
         GameObject slot = Instantiate(InventorySlotPrefab, ItemsParent);
         if(slot == null) Debug.LogError("slot is not set");
-        SlotItemIdentifier id = slot.GetComponent<SlotItemIdentifier>();
+        SlotHandler id = slot.GetComponent<SlotHandler>();
         if(id == null) Debug.LogError("id is not set");
         id.SetItem(item);
         GameObject iconObject = slot.transform.Find("ItemButton/ItemIcon").gameObject;
 
         Image iconImage = iconObject.GetComponent<Image>();
         iconImage.enabled = true;
-        iconImage.sprite = item.itemIcon;
+        iconImage.sprite = id.item.itemIcon;
 
-        InventoryItems.Add(item);
+        InventoryItems.Add(slot);
     }
 }

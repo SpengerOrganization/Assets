@@ -4,14 +4,14 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class SlotItemIdentifier : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class SlotHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     
     public Item item;
     private bool onSlot;
     private Image iconImage;
     private GameObject ItemIconObject;
-    private bool curPicked;
+    public bool curPicked;
     private Sprite icon;
 
     private GameObject canvas;
@@ -61,7 +61,6 @@ public class SlotItemIdentifier : MonoBehaviour, IPointerEnterHandler, IPointerE
             iconImage.enabled = false;
 
             // make sprite follow mouse
-
             mouseFollowTransform = GenerateSpriteAtMouse(icon);
 
             // Aktualisiere die Position des Sprites auf die Position des Mauszeigers
@@ -76,7 +75,9 @@ public class SlotItemIdentifier : MonoBehaviour, IPointerEnterHandler, IPointerE
             iconImage.enabled = true;
             iconImage.sprite = icon;
 
-            Destroy(mouseFollowTransform.gameObject);
+            if(mouseFollowTransform != null){
+                Destroy(mouseFollowTransform.gameObject);
+            }
 
             curPicked = false;
         }
@@ -100,7 +101,7 @@ public class SlotItemIdentifier : MonoBehaviour, IPointerEnterHandler, IPointerE
     private Transform GenerateSpriteAtMouse(Sprite sprite)
     {
         // Erstelle ein neues GameObject und setze den SpriteRenderer
-        GameObject newObject = new GameObject("ÍtemMouseFollow");
+        GameObject newObject = new GameObject("ItemMouseFollow");
         SpriteRenderer spriteRenderer = newObject.AddComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprite;
 
@@ -113,10 +114,9 @@ public class SlotItemIdentifier : MonoBehaviour, IPointerEnterHandler, IPointerE
 
         spriteRenderer.transform.localScale = new Vector3(2f, 2f, 1f);
 
-        // TODO: Versuch, Item über Canvas anzuzeigen
-        newObject.transform.SetParent(canvas.transform, true);
+        // TODO: Versuch, Item ï¿½ber Canvas anzuzeigen
 
-        // Gib das Transform-Objekt des neu erstellten GameObjects zurück
+        // Gib das Transform-Objekt des neu erstellten GameObjects zurï¿½ck
         return newObject.transform;
     }
 
