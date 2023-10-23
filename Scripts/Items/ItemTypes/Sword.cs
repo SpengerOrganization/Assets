@@ -14,4 +14,9 @@ public class Sword : Item
         this.attackDamage = attackDamage;
         this.attackSpeed = attackSpeed;
     }
+
+
+    public static Sword CreateSample(){
+        return new Sword(0, "", null, 0, 0);
+    }
 }

@@ -9,11 +9,9 @@ public class Item
     public string itemName;
     public Sprite itemIcon;
 
-
-    public Item(int id, string name, Sprite icon)
-    {
-        itemName = name;
-        itemID = id;
-        itemIcon = icon;
+    public Item(int itemID, string itemName, Sprite itemIcon){
+        this.itemID = itemID;
+        this.itemName = itemName;
+        this.itemIcon = itemIcon;
     }
 }

@@ -10,8 +10,12 @@ public class InventoryUI : MonoBehaviour
     private Transform Inventory;
     private bool open;
 
-    private List<GameObject> InventoryItems;
+    public List<GameObject> InventoryItems;
 
+    // Equiped Items
+    public Item EquipedMelee;
+    public Item EquipedBow;
+    public Item EquipedShield;
 
     void Start()
     {
@@ -19,6 +23,9 @@ public class InventoryUI : MonoBehaviour
         InventoryItems = new List<GameObject>();
         Inventory = transform.Find("Inventory");
         ItemsParent = Inventory.Find("ItemGrid/ItemsParent");
+        EquipedShield = null;
+        EquipedBow = null;
+        EquipedMelee = null;
 
         if(Inventory == null){
             Debug.Log("Can't find Inventory GameObject!");
@@ -71,5 +78,15 @@ public class InventoryUI : MonoBehaviour
         iconImage.sprite = id.item.itemIcon;
 
         InventoryItems.Add(slot);
+    }
+
+    public bool ContainsItemType(Item item){
+        foreach(GameObject slot in InventoryItems){
+            SlotHandler id = slot.GetComponent<SlotHandler>();
+            if(id.item.GetType() == item.GetType()){
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -17,17 +17,20 @@ public class PlayerStats : MonoBehaviour
 
     private Renderer SpriteRenderer;
 
+    private InventoryUI inventory;
+
     void Start()
     {
         SpriteRenderer = GetComponent<Renderer>();
         AttackAnimRenderer = AttackAnim.GetComponent<SpriteRenderer>();
+        inventory = GameObject.Find("Canvas").GetComponent<InventoryUI>();
     }
 
     void Update()
     {
         WatchIfDead(); 
 
-        if(Input.GetKeyDown(KeyCode.Mouse0)){
+        if(Input.GetKeyDown(KeyCode.Mouse0) && inventory.ContainsItemType(Sword.CreateSample())){
             Attack();
         }
     }
