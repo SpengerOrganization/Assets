@@ -30,7 +30,7 @@ public class PlayerStats : MonoBehaviour
     {
         WatchIfDead(); 
 
-        if(Input.GetKeyDown(KeyCode.Mouse0) && inventory.ContainsItemType(Sword.CreateSample())){
+        if(Input.GetKeyDown(KeyCode.Mouse0) && inventory.EquipedMelee != null){
             Attack();
         }
     }
@@ -41,7 +41,7 @@ public class PlayerStats : MonoBehaviour
         Collider2D[] hit = Physics2D.OverlapCircleAll(AttackPoint.position, AttackRange, enemyLayer);
         foreach(Collider2D c in hit)
         {
-            DealDamage(c, Damage);
+            if(c.gameObject.tag.Equals("Enemy")) DealDamage(c, Damage);
         }
     }
 

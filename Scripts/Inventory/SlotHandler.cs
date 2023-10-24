@@ -7,7 +7,9 @@ using UnityEngine;
 public class SlotHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     
+    // held item
     public Item item;
+
     private bool onSlot;
     private Image iconImage;
     private GameObject ItemIconObject;

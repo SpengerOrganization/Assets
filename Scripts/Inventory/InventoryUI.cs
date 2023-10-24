@@ -71,13 +71,25 @@ public class InventoryUI : MonoBehaviour
         SlotHandler id = slot.GetComponent<SlotHandler>();
         if(id == null) Debug.LogError("id is not set");
         id.SetItem(item);
-        GameObject iconObject = slot.transform.Find("ItemButton/ItemIcon").gameObject;
+        GameObject buttonObject = slot.transform.Find("ItemButton").gameObject;
+        GameObject iconObject = buttonObject.transform.Find("ItemIcon").gameObject;
 
         Image iconImage = iconObject.GetComponent<Image>();
         iconImage.enabled = true;
         iconImage.sprite = id.item.itemIcon;
 
         InventoryItems.Add(slot);
+    }
+
+    public void RemoveItem(Item item){
+        foreach(GameObject slot in InventoryItems){
+            Item itemFromSlot = slot.GetComponent<SlotHandler>().item;
+            if(itemFromSlot == item){
+                Destroy(slot);
+                InventoryItems.Remove(slot);
+                return;
+            }
+        }
     }
 
     public bool ContainsItemType(Item item){
@@ -88,5 +100,15 @@ public class InventoryUI : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public Item GetCurPickedItem(){
+        foreach(GameObject item in InventoryItems){
+            SlotHandler handler = item.GetComponent<SlotHandler>();
+            if(handler.curPicked){
+                return handler.item;
+            }
+        }
+        return null;
     }
 }

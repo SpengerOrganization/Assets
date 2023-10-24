@@ -13,8 +13,6 @@ public class ItemPickup : MonoBehaviour
     { 
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = icon;
-        // somehow generate the item for the specific gameobject-item ... random?
-        item = new Sword(1, "Olaf", icon, 2, 5);
     }
 
 
@@ -37,5 +35,9 @@ public class ItemPickup : MonoBehaviour
 
             Destroy(gameObject);
         }
+    }
+
+    public void SetItem(Item item){
+        this.item = item;
     }
 }
