@@ -13,6 +13,8 @@ public class ItemPickup : MonoBehaviour
     { 
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = icon;
+
+        item = new Sword(0, "", icon, 0, 0);
     }
 
 

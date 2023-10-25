@@ -56,7 +56,6 @@ public class SlotHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     void Update()
     {
-        
         if (onSlot && Input.GetButtonUp("Fire1"))
         {
             iconImage.sprite = null;
@@ -72,8 +71,6 @@ public class SlotHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         }
         else if (Input.GetButtonUp("Fire1") && mouseFollowTransform != null)
         {
-            // TODO: check if over Player view slot
-
             iconImage.enabled = true;
             iconImage.sprite = icon;
 
