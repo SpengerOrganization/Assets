@@ -64,13 +64,18 @@ public class MeleeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         Item item = inventory.GetCurPickedItem();
 
         // check if item is a sword (or maybe other melee type in the future)
-        if(item.GetType() != typeof(Sword)) return;
+        if(item.GetType() != typeof(Sword)){
+            // item ist keine Waffe
+            return;
+        }
 
         itemIcon.enabled = true;
         itemIcon.sprite = item.itemIcon;
 
         // remove drag object
-        Destroy(GameObject.Find("ItemMouseFollow"));
+        GameObject drgObj = GameObject.Find("ItemMouseFollow");
+        Debug.Log(drgObj);
+        Destroy(drgObj);
 
         // remove item slot
         inventory.RemoveItem(item);

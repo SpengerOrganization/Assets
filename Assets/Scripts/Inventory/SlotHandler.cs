@@ -113,7 +113,7 @@ public class SlotHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
         spriteRenderer.transform.localScale = new Vector3(2f, 2f, 1f);
 
-        // TODO: Versuch, Item �ber Canvas anzuzeigen
+        // TODO: Versuch, Item ueber Canvas anzuzeigen
 
         // Gib das Transform-Objekt des neu erstellten GameObjects zur�ck
         return newObject.transform;
